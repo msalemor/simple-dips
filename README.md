@@ -12,6 +12,15 @@ sDIPs is a Python application for generating and processing messages using AI ag
 - **Services:** Abstractions for queue (RabbitMQ), file operations, logging, and Azure OpenAI integration.
 - **Message Types:** Typed dataclasses for structured message passing.
 
+### System Architecture Diagram
+
+```mermaid
+graph LR
+  M(Message) --> Q(Queue) --> L(Message<br>Listener) --invokes--> P(Processor<br>Instance) <--calls--> AI(AI Agent)
+  P-->O(Output)
+```
+
+
 ## Main Components
 
 ### CLI (`main.py`, `cmd/rootcmd.py`)
