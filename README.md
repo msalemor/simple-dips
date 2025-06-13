@@ -16,8 +16,8 @@ sDIPs is a Python application for generating and processing messages using AI ag
 
 ```mermaid
 graph LR
-  M(Message) --> Q(Queue) --> L(Message<br>Listener) --invokes--> P(Processor<br>Instance) <--calls--> AI(AI Agent)
-  P-->O(Output)
+  M(Message) --push<br>message--> Q(Queue) --pop<br>message--> L(Message<br>Listener) --invokes<br>instance--> P(Processor<br>Instance) <--calls--> AI(AI Agent)
+  P--writes-->O(Output)
 ```
 
 
