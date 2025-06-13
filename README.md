@@ -68,7 +68,7 @@ Create an an `.env` file with the following settings:
 
 ```
 AZURE_OPENAI_ENDPOINT=https://<NAME>.openai.azure.com/
-AZURE_OPENAI_API_KEY=<ID>
+AZURE_OPENAI_API_KEY=<API_KEY>
 AZURE_OPENAI_VERSION=2025-01-01-preview
 AZURE_OPENAI_MODEL=gpt-4o
 ```

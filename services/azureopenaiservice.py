@@ -1,5 +1,6 @@
 from openai import AzureOpenAI
 from typing import List, Dict, Optional
+from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
 from services.settingservice import Settings, settings_instance
 
@@ -7,11 +8,21 @@ from services.settingservice import Settings, settings_instance
 class AzureOpenAIService:
     def __init__(self, settings: Settings = None):
         self._settings = settings or settings_instance()
-        self.client = AzureOpenAI(
-            azure_endpoint=self._settings.endpoint,
-            api_key=self._settings.api_key,
-            api_version=self._settings.version,
-        )
+        if self._settings.api_key is None:
+            token_provider = get_bearer_token_provider(
+                DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default"
+            )
+            self.client = AzureOpenAI(
+                azure_endpoint=self._settings.endpoint,
+                credential=token_provider,
+                api_version=self._settings.version,
+            )
+        else:
+            self.client = AzureOpenAI(
+                azure_endpoint=self._settings.endpoint,
+                api_key=self._settings.api_key,
+                api_version=self._settings.version,
+            )
         self.deployment_name = self._settings.model
 
     def get_chat_completion(
