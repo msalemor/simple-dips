@@ -52,6 +52,8 @@ graph LR
 
 ## Dependencies
 
+- Docker
+- RabbitMQ from Docker Hub
 - uv package and project manager
 - Python 3.11+
 - click
@@ -87,6 +89,8 @@ AZURE_OPENAI_MODEL=gpt-4o
    - View queue count: `uv run main.py count`
    - Clear queue: `uv run main.py clear`
    - Generate a mock transcript: `uv run main.py mock_transcript`
+4. **Docker Compose -- RabbitMQ**
+   - In development execute: `docker compose up -d`
 
 ## Configuration
 
