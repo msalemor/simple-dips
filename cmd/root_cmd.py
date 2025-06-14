@@ -37,9 +37,9 @@ DEFAULT_QUEUE = "in_queue"
 queue_service = get_queue_service()
 
 
-@click.group()
+@click.group(help="sDIPs - Command Line Interface")
 def cli():
-    print("sDIPs - Command Line Interface")
+    pass
 
 
 @cli.command(help="Count messages in the queue")
@@ -89,6 +89,7 @@ def process(name: str) -> None:
 
 @cli.command(help="Generate a mock transcript")
 def mock_transcript() -> None:
+    logger.info("Generating mock transcript")
     agent: AgentBase = TranscriptGenerationAgent()
     mock_transcript = agent.completion(
         messages=[
@@ -99,8 +100,7 @@ def mock_transcript() -> None:
         ],
         temperature=0.1,
     )
-    logger.info("Mock transcript generation completed.")
-    logger.info(f"Mock transcript: {mock_transcript}")
+    logger.info(f"Mock transcript completed:\n{mock_transcript}")
 
 
 if __name__ == "__main__":
