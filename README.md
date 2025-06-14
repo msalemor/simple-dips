@@ -32,23 +32,24 @@ graph LR
   - `mock_transcript`: Generate a sample transcript using the AI agent.
 
 ### AI Agents (`aiagents/`)
-- `AIAgentBase`: Abstract base for all agents, handles message formatting and completion via Azure OpenAI.
+- `AgentBase`: Abstract base for all agents, handles message formatting and completion via Azure OpenAI.
 - `TranscriptGenerationAgent`: Generates transcripts from prompts.
 - `ChineseTranslationAgent`: Translates text from English to Chinese.
 
-### Processors (`processors/processors.py`)
+### Processors (`processors/`)
 - `AnalysisProcessor`: Generates a transcript and its Chinese translation, saves both to file.
 - `TranscriptionProcessor`: Handles transcription messages (implementation similar to analysis).
 
 ### Services
-- `azureopenaiservice.py`: Wraps Azure OpenAI chat completion API.
-- `queueservice.py`: Manages RabbitMQ queues for message passing.
-- `fileservice.py`: Appends results to a log file.
-- `logservice.py`: Configures logging.
+- `azure_openai_service.py`: Wraps Azure OpenAI chat completion API.
+- `rabbitmq_queue_service.py`: Manages RabbitMQ queues for message passing.
+- `file_service.py`: Appends results to a log file.
+- `log_service.py`: Configures logging.
+- `settings_service.py`: Loads the configuration from environment variables or `.env` file.
 
-### Message Types (`messagetypes/messages.py`)
+### Message Types (`message/`)
+- `QueueMessage`: Envelope for queue messages, includes type, data, unique ID, and timestamp.
 - `AnalysisData`, `TranscriptionData`: Data payloads for messages.
-- `Message`: Envelope for queue messages, includes type, data, unique ID, and timestamp.
 
 ## Dependencies
 
@@ -62,39 +63,38 @@ graph LR
 - pika
 - python-dotenv
 
-## `.env` file
-
-Create an an `.env` file with the following settings:
-
-```
-AZURE_OPENAI_ENDPOINT=https://<NAME>.openai.azure.com/
-AZURE_OPENAI_API_KEY=<API_KEY>
-AZURE_OPENAI_VERSION=2025-01-01-preview
-AZURE_OPENAI_MODEL=gpt-4o
-```
-
 ## Usage
 
-1. **Install dependencies:**
+1. **Create an `.env` file**
    ```
+   AZURE_OPENAI_ENDPOINT=https://<NAME>.openai.azure.com/
+   AZURE_OPENAI_API_KEY=<API_KEY>
+   AZURE_OPENAI_VERSION=2025-01-01-preview
+   AZURE_OPENAI_MODEL=gpt-4o
+   ```
+
+2. **Install dependencies:**
+   ```
+   # start RabbitMQ
+   docker compose up -d
+
+   # create the environment and update the python packages
    uv sync
    ```
-2. **Run the CLI:**
+3. **Run the CLI:**
    ```
    uv run main.py --help
    ```
-3. **Example commands:**
+4. **Example commands:**
    - Generate messages: `uv run main.py generate --count 5`
    - Process messages: `uv run main.py process`
    - View queue count: `uv run main.py count`
    - Clear queue: `uv run main.py clear`
    - Generate a mock transcript: `uv run main.py mock_transcript`
-4. **Docker Compose -- RabbitMQ**
-   - In development execute: `docker compose up -d`
 
 ## Configuration
 
-- Azure OpenAI and RabbitMQ settings are managed in the `services/settingservice.py` (not shown here).
+- Azure OpenAI and RabbitMQ settings are managed in the `services/setting_service.py` (not shown here).
 - Output is logged to `data.log`.
 
 ---
