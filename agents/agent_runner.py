@@ -5,10 +5,10 @@ logger = get_logger(__name__)
 
 
 class AgentRunner:
-    def __init__(self, task: str = None, agents: list[AgentBase] = []):
-        self.task = task
+    def __init__(self, agents: list[AgentBase] | None = None):
+        if not agents:
+            raise ValueError("At least one agent must be provided")
         self.agents: list[AgentBase] = []
-        self.shared_state = {}
 
     def run(
         self, task: str, messages: list[dict[str, str]] | None = None
