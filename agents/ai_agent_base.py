@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from services.azureopenaiservice import AzureOpenAIService
+from services.azure_openai_service import AzureOpenAIService
 
 
 class AIAgentBase(ABC):
@@ -27,12 +27,6 @@ class AIAgentBase(ABC):
         # keep the first message and the last max messages
         if len(messages) > max:
             messages = messages[:1] + messages[-max:]
-        # ensure the last message is from the user
-        # if messages[-1]["role"] != "user":
-        #     messages.append({"role": "user", "content": ""})
-        # # ensure the first message is from the system
-        # if messages[0]["role"] != "system":
-        #     messages.insert(0, {"role": "system", "content": self.llm.system_prompt})
         return messages
 
     def completion(

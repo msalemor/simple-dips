@@ -1,5 +1,5 @@
 import pika
-from services.logservice import get_logger
+from services.log_service import get_logger
 
 logger = get_logger(__name__)
 

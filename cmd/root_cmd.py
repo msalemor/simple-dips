@@ -2,19 +2,25 @@ from uuid import uuid4
 import click
 
 
-from aiagents.TranscriptGenerationAgent import TranscriptGenerationAgent
-from aiagents.AIAgentBase import AIAgentBase
-from processors.processorbase import ProcessorBase
-from processors.processors import AnalysisProcessor, TranscriptionProcessor
-from messagetypes.messages import AnalysisData, Message
-from services.queueservice import get_queue_service
-from services.logservice import get_logger
+from services.rabbitmq_queue_service import get_queue_service
+from services.log_service import get_logger
+
+from messages.queue_message import QueueMessage
+from messages.analysis_data import AnalysisData
+
+from processors.analysis_processor import AnalysisProcessor
+from processors.processor_base import ProcessorBase
+from processors.transcription_processor import TranscriptionProcessor
+
+from agents.transcript_generation_agent import TranscriptGenerationAgent
+from agents.ai_agent_base import AIAgentBase
+
 
 logger = get_logger(__name__)
 
 
 def processing_deletage(msg: str) -> None:
-    message: Message = Message.from_json(msg)
+    message: QueueMessage = QueueMessage.from_json(msg)
     processor_classes = {
         "analysisagent": AnalysisProcessor,
         "transcriptionagent": TranscriptionProcessor,
@@ -36,7 +42,7 @@ def cli():
     print("sDIPs - Command Line Interface")
 
 
-@cli.command(help="List all queues")
+@cli.command(help="Count messages in the queue")
 @click.option("--name", default=DEFAULT_QUEUE, help="Queue name")
 def count(name: str) -> None:
     count = queue_service.count_messages(name)
@@ -65,7 +71,7 @@ def generate(count: int, name: str) -> None:
         analysis_data = AnalysisData(
             content="Generate a transcription between Jane and John about an incident with Azure App Service. Finish by the conversation by suggesting that a survey should be started."
         )
-        msg = Message(data=analysis_data, gid=str(uuid4()), type="analysisagent")
+        msg = QueueMessage(data=analysis_data, gid=str(uuid4()), type="analysisagent")
         logger.info(f"Generated message: {msg.to_json()}")
         queue_service.push_message(name, msg.to_json())
     queue_service.close()

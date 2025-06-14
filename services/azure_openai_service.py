@@ -2,7 +2,7 @@ from openai import AzureOpenAI
 from typing import List, Dict, Optional
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
-from services.settingservice import Settings, settings_instance
+from services.setting_service import Settings, settings_instance
 
 
 class AzureOpenAIService:

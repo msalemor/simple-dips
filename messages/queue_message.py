@@ -1,26 +1,16 @@
-from dataclasses import dataclass
 from dataclasses_json import dataclass_json
-from uuid import uuid4
+from dataclasses import dataclass
+
+from messages.analysis_data import AnalysisData
+from messages.transcription_data import TranscriptionData
 
 from datetime import datetime, timezone
-from time import time
+from uuid import uuid4
 
 
 @dataclass_json
 @dataclass
-class AnalysisData:
-    content: str
-
-
-@dataclass_json
-@dataclass
-class TranscriptionData:
-    content: str
-
-
-@dataclass_json
-@dataclass
-class Message:
+class QueueMessage:
     gid: str = str(uuid4())  # Unique identifier for the message
     type: str = "analysisagent"
     data: AnalysisData | TranscriptionData | None = (
