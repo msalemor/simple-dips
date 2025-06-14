@@ -1,6 +1,6 @@
 from agents.transcript_generation_agent import TranscriptGenerationAgent
-from agents.ai_agent_base import (
-    AIAgentBase,
+from agents.agent_base import (
+    AgentBase,
 )
 from processors.processor_base import ProcessorBase
 from messages.queue_message import QueueMessage
@@ -16,7 +16,7 @@ class TranscriptionProcessor(ProcessorBase):
         logger.info(f"Processing generation message: {message}")
         FileService.append_to_file(str(message))
         self.messagage = message
-        agent: AIAgentBase = TranscriptGenerationAgent()
+        agent: AgentBase = TranscriptGenerationAgent()
         mock_transcript = agent.completion(
             messages=[
                 {"role": "user", "content": message.data.content},

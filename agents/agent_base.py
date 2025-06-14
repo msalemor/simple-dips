@@ -4,7 +4,7 @@ from typing import Optional
 from services.azure_openai_service import AzureOpenAIService
 
 
-class AIAgentBase(ABC):
+class AgentBase(ABC):
     def __init__(
         self,
         name: str = "BaseAgent",

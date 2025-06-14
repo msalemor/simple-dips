@@ -13,7 +13,7 @@ from processors.processor_base import ProcessorBase
 from processors.transcription_processor import TranscriptionProcessor
 
 from agents.transcript_generation_agent import TranscriptGenerationAgent
-from agents.ai_agent_base import AIAgentBase
+from agents.agent_base import AgentBase
 
 
 logger = get_logger(__name__)
@@ -87,7 +87,7 @@ def process(name: str) -> None:
 
 @cli.command(help="Generate a mock transcript")
 def mock_transcript() -> None:
-    agent: AIAgentBase = TranscriptGenerationAgent()
+    agent: AgentBase = TranscriptGenerationAgent()
     mock_transcript = agent.completion(
         messages=[
             {

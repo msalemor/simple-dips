@@ -1,4 +1,4 @@
-from agents.ai_agent_base import AIAgentBase
+from agents.agent_base import AgentBase
 from agents.chinese_translation_agent import ChineseTranslationAgent
 from agents.transcript_generation_agent import TranscriptGenerationAgent
 from messages.queue_message import QueueMessage
@@ -17,7 +17,7 @@ class AnalysisProcessor(ProcessorBase):
         self.messagage = message
 
         logger.info(f"Generating mock transcript")
-        agent: AIAgentBase = TranscriptGenerationAgent()
+        agent: AgentBase = TranscriptGenerationAgent()
         mock_transcript = agent.completion(
             messages=[
                 {"role": "user", "content": message.data.content},
