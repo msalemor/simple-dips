@@ -2,7 +2,9 @@
 
 ## Overview
 
-sDIPs is a Python application for generating and processing messages using AI agents and a message queue system. It leverages Azure OpenAI for language tasks and RabbitMQ for message queuing.
+sDIPs is a Python application for generating and processing messages using AI agents and a message queue system. It leverages Azure OpenAI for language tasks and RabbitMQ for message queuing. The original DIPs application runs on all Azure Services including: Service Bus, Blob Storage, CosmosDB, Azure OpenAI, Azure Speech Services, and others, all in a secure keyless architecture.
+
+This repo and code is designed to showcase the important concepts about this application architecture and implementation.
 
 ## Architecture
 
