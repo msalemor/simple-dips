@@ -15,27 +15,4 @@ class AnalysisProcessor(ProcessorBase):
         logger.info(f"Processing generation message: {message}")
         FileService.append_to_file(str(message))
         self.messagage = message
-
-        logger.info(f"Generating mock transcript")
-        agent: AgentBase = TranscriptGenerationAgent()
-        mock_transcript = agent.completion(
-            messages=[
-                {"role": "user", "content": message.data.content},
-            ],
-            temperature=0.1,
-        )
-
-        logger.info("Translating mock transcript to Chinese")
-        agent = ChineseTranslationAgent()
-        translation = agent.completion(
-            messages=[
-                {"role": "user", "content": mock_transcript},
-            ],
-            temperature=0.1,
-        )
-        # logger.info(f"Translation: {translation}")
-        FileService.append_to_file(
-            f"Mock transcript:\n{mock_transcript}\n\nTranslation:\n{translation}"
-        )
-
-        logger.info("Mock transcript and translation saved to file.")
+        logger.info(f"Message processing completed")

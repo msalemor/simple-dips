@@ -11,7 +11,7 @@ from uuid import uuid4
 @dataclass_json
 @dataclass
 class QueueMessage:
-    gid: str = str(uuid4())  # Unique identifier for the message
+    cid: str = str(uuid4())  # Unique identifier for the message
     type: str = "analysisagent"
     data: AnalysisData | TranscriptionData | None = (
         None  # Data associated with the message, can be None

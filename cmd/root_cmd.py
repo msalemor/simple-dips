@@ -2,11 +2,11 @@ from uuid import uuid4
 import click
 
 
+from messages.transcription_data import TranscriptionData
 from services.rabbitmq_queue_service import get_queue_service
 from services.log_service import get_logger
 
 from messages.queue_message import QueueMessage
-from messages.analysis_data import AnalysisData
 
 from processors.analysis_processor import AnalysisProcessor
 from processors.processor_base import ProcessorBase
@@ -68,10 +68,12 @@ def clear(name: str):
 def generate(count: int, name: str) -> None:
     logger.info(f"Generating {count} messages in queue '{name}'")
     for _ in range(count):
-        analysis_data = AnalysisData(
+        analysis_data = TranscriptionData(
             content="Generate a transcription between Jane and John about an incident with Azure App Service. Finish by the conversation by suggesting that a survey should be started."
         )
-        msg = QueueMessage(data=analysis_data, gid=str(uuid4()), type="analysisagent")
+        msg = QueueMessage(
+            data=analysis_data, cid=str(uuid4()), type="transcriptionagent"
+        )
         logger.info(f"Generated message: {msg.to_json()}")
         queue_service.push_message(name, msg.to_json())
     queue_service.close()
