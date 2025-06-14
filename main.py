@@ -1,6 +1,5 @@
-from cmd.rootcmd import cli, mock_transcript
+from cmd.rootcmd import cli
 
 
 if __name__ == "__main__":
     cli()
-    # mock_transcript()

@@ -26,6 +26,7 @@ class RabbitMQQueueService:
 
     def push_message(self, queue_name, message):
         logger.info(f"Pushing message to queue: {queue_name}")
+        self.create_queue(queue_name)  # Ensure the queue exists
         self.channel.basic_publish(
             exchange="",
             routing_key=queue_name,
@@ -43,11 +44,13 @@ class RabbitMQQueueService:
         return None
 
     def count_messages(self, queue_name):
+        self.create_queue(queue_name)  # Ensure the queue exists
         logger.info(f"Counting messages in queue: {queue_name}")
         queue = self.channel.queue_declare(queue=queue_name, passive=True)
         return queue.method.message_count
 
     def clear_queue(self, queue_name):
+        self.create_queue(queue_name)  # Ensure the queue exists
         logger.info(f"Clearing queue: {queue_name}")
         self.channel.queue_purge(queue=queue_name)
 
